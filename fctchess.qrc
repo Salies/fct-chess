@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/fctchess">
+        <file>qrc/chess_merida_unicode.ttf</file>
+    </qresource>
+</RCC>
