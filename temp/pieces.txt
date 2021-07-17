@@ -1,0 +1,6 @@
+t - tower
+p - pawn
+k - knight
+b - bishop
+q - queen
+k - king
