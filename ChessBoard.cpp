@@ -12,7 +12,7 @@ ChessBoard::ChessBoard(bool whites){
 	setSelectionMode(QAbstractItemView::SingleSelection);
 	setStyleSheet("QTableWidget::item:selected{ background-color: #42adf5 }");
 
-	QStringList l = {"h", "f", "f", "e", "d", "c", "b", "a"};
+	QStringList l = {"h", "g", "f", "e", "d", "c", "b", "a"};
 	QStringList n;
 
 	for (int i = 0; i < 8; i++) {

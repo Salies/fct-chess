@@ -85,16 +85,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="PlayList.cpp" />
+    <ClCompile Include="StatusBar.cpp" />
     <QtRcc Include="fctchess.qrc" />
     <QtMoc Include="mainwindow.h" />
+    <ClCompile Include="BoardPlayer.cpp" />
     <ClCompile Include="ChessBoard.cpp" />
     <ClCompile Include="ChessSquare.cpp" />
     <ClCompile Include="mainwindow.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BoardPlayer.h" />
     <ClInclude Include="ChessBoard.h" />
     <ClInclude Include="ChessSquare.h" />
+    <ClInclude Include="PlayList.h" />
+    <ClInclude Include="StatusBar.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

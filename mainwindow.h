@@ -2,6 +2,8 @@
 
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QMainWindow>
+#include "PlayList.h"
+#include "StatusBar.h"
 
 class MainWindow : public QMainWindow
 {
@@ -13,5 +15,7 @@ public:
 private:
     QWidget* centralWidget;
     QVBoxLayout* centralLayout;
+    StatusBar* statusBar;
     void createChessBoard();
+    void crateStatusBar();
 };
