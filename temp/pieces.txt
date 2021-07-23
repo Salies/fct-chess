@@ -1,6 +1,6 @@
-t - tower
-p - pawn
-k - knight
-b - bishop
-q - queen
-k - king
+K - king (rei)
+Q - queen (dama)
+R - rook (torre)
+B - bishop (bispo)
+N - knight (cavalo)
+P - pawn (peão)
