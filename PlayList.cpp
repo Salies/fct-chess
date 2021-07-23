@@ -7,6 +7,7 @@ PlayList::PlayList() {
 	setRowCount(1);
 	setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
 	setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
+	setEditTriggers(QAbstractItemView::NoEditTriggers);
 
 	setColumnWidth(0, 64);
 	setColumnWidth(1, 64);

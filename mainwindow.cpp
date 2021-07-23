@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ChessBoard.h"
 #include "BoardPlayer.h"
+#include <QFontDatabase>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -47,6 +48,9 @@ void MainWindow::createChessBoard() {
     play_area->addLayout(list_layout);
 
     centralLayout->addLayout(play_area);
+
+    //TEST
+    board->setInitPos();
 }
 
 void  MainWindow::crateStatusBar() {

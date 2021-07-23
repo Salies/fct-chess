@@ -1,7 +1,18 @@
 <RCC>
     <qresource prefix="/fctchess">
-        <file>qrc/chess_merida_unicode.ttf</file>
         <file>qrc/player.png</file>
         <file>qrc/machine.png</file>
+        <file>qrc/pieces/bB.png</file>
+        <file>qrc/pieces/bK.png</file>
+        <file>qrc/pieces/bN.png</file>
+        <file>qrc/pieces/bP.png</file>
+        <file>qrc/pieces/bQ.png</file>
+        <file>qrc/pieces/bR.png</file>
+        <file>qrc/pieces/wB.png</file>
+        <file>qrc/pieces/wK.png</file>
+        <file>qrc/pieces/wN.png</file>
+        <file>qrc/pieces/wP.png</file>
+        <file>qrc/pieces/wQ.png</file>
+        <file>qrc/pieces/wR.png</file>
     </qresource>
 </RCC>
