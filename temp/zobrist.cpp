@@ -9,7 +9,7 @@ char piece_list[6] = {'K', 'Q', 'R', 'B', 'N', 'P'};
 0/6 - reis
 1/7 - damas
 2/8 - torres
-3/8 - bispos
+3/9 - bispos
 4/10 - cavalos
 5/11 - peões
 6/12 - reis que podem rocar => não implementado

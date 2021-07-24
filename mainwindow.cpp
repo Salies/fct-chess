@@ -1,7 +1,7 @@
 #include "mainwindow.h"
-#include "ChessBoard.h"
 #include "BoardPlayer.h"
 #include <QFontDatabase>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -28,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent)
 void MainWindow::createChessBoard() {
     QHBoxLayout* play_area = new QHBoxLayout;
     QVBoxLayout* board_layout = new QVBoxLayout, *list_layout = new QVBoxLayout;
-    ChessBoard* board = new ChessBoard(true);
+    board = new ChessBoard(true);
     BoardPlayer* machine = new BoardPlayer(true), *player = new BoardPlayer(false);
 
     board_layout->addLayout(machine);
@@ -48,9 +48,6 @@ void MainWindow::createChessBoard() {
     play_area->addLayout(list_layout);
 
     centralLayout->addLayout(play_area);
-
-    //TEST
-    board->setInitPos();
 }
 
 void  MainWindow::crateStatusBar() {
@@ -60,6 +57,10 @@ void  MainWindow::crateStatusBar() {
     statusBar = new StatusBar();
     centralLayout->addWidget(hFrame);
     centralLayout->addLayout(statusBar);
+}
+
+void MainWindow::teste(int x, int y) {
+    
 }
 
 // TODO: otimizar cores?

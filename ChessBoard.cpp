@@ -1,6 +1,7 @@
 #include "ChessBoard.h"
 #include "ChessSquare.h"
 #include <QHeaderView>
+#include <QDebug>
 
 char ChessBoard::a[6] = { 'K', 'Q', 'R', 'B', 'N', 'P' };
 
@@ -34,39 +35,44 @@ ChessBoard::ChessBoard(bool whites){
 	};
 
 	setHorizontalHeaderLabels(l);
+	resetBoard();
+
+	connect(this, &ChessBoard::cellClicked, this, &ChessBoard::squareClicked);
 }
 
-void ChessBoard::setInitPos() { //TODO: temporaria
-	setPiece(0, 0, 8);
-	setPiece(0, 7, 8);
-	setPiece(0, 1, 10);
-	setPiece(0, 6, 10);
-	setPiece(0, 2, 9);
-	setPiece(0, 5, 9);
-	setPiece(0, 4, 6);
-	setPiece(0, 3, 7);
-	setPiece(7, 0, 2);
-	setPiece(7, 7, 2);
-	setPiece(7, 1, 4);
-	setPiece(7, 6, 4);
-	setPiece(7, 2, 3);
-	setPiece(7, 5, 3);
-	setPiece(7, 4, 0);
-	setPiece(7, 3, 1);
-	for (int i = 0; i < 8; i++) {
-		setPiece(1, i, 11);
-		setPiece(6, i, 5);
-	}
+void ChessBoard::resetBoard() {
+	board = { {
+		{8, 10, 9, 7, 6, 9, 10, 8},
+		{11, 11, 11, 11, 11, 11, 11, 11},
+		{-1, -1, -1, -1, -1, -1, -1, -1},
+		{-1, -1, -1, -1, -1, -1, -1, -1},
+		{-1, -1, -1, -1, -1, -1, -1, -1},
+		{-1, -1, -1, -1, -1, -1, -1, -1},
+		{5, 5, 5, 5, 5, 5, 5, 5},
+		{2, 4, 3, 1, 0, 3, 4, 2}
+	} };
+
+	for (int i = 0; i < 8; i++)
+		for (int j = 0; j < 8; j++)
+			setPiece(i, j, board[i][j]);
 }
 
 void ChessBoard::setPiece(int x, int y, int piece) {
-	QString t = "w";
-	int p = piece;
+	if (piece == -1) {
+		item(x, y)->setData(Qt::DecorationRole, NULL);
+		return;
+	}
 
-	if (p > 5) {
-		p -= 6;
+	QString t = "w";
+
+	if (piece > 5) {
+		piece -= 6;
 		t = "b";
 	}
 
-	item(x, y)->setData(Qt::DecorationRole, QPixmap::fromImage(QImage(":/fctchess/qrc/pieces/" + t + QString(a[p]) + ".png")));
+	item(x, y)->setData(Qt::DecorationRole, QPixmap::fromImage(QImage(":/fctchess/qrc/pieces/" + t + QString(a[piece]) + ".png")));
+}
+
+void ChessBoard::squareClicked(int x, int y) {
+	qDebug() << board[x][y];
 }
