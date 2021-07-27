@@ -53,14 +53,14 @@ int main(void){
             if(board[i][j] != -1){
                 bs.pos |= 1ULL << (8 * i) + j;
                 piece = std::bitset<4>(board[i][j]);
-                set_bits(&bs.pieces_upper, piece, (8 * i) + j);
+                set_bits(&bs.pieces_upper, piece, (8 * (i - 8)) + j);
             }
         }
     }
 
     std::cout << bs.pos << "\n";
-    std::cout << bs.pieces_lower << "\n";
-    std::cout << bs.pieces_upper << "\n";
+    std::cout << std::bitset<64>(bs.pieces_lower) << "\n";
+    std::cout << std::bitset<64>(bs.pieces_upper) << "\n";
 
     return 0;
 }
