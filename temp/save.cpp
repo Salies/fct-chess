@@ -20,19 +20,13 @@ std::array<std::array<int, 8>, 8> board = { {
 		{2, 4, 3, 1, 0, 3, 4, 2}
 } };
 
-void set_bits(uint64_t *bign, std::bitset<4> val, int pos){
-    pos *= 4;
-    for(int i = 0; i < 4; i++){ // TODO: tem jeito melhor de manipular 4 bits (de uma vez, por exemplo)
-        if(val[i]){
-            *bign |= 1ULL << i + pos;
-        }
-    }
+void set_bits(uint64_t *bign, uint64_t val, int pos){
+    *bign = *bign | (val << (pos * 4)); // OR direto pois bign é inicializado com 0
 }
 
 int main(void){
-    std::bitset<4> piece = std::bitset<4>(10);
-
     int i = 0, j;
+
     BOARDSAVE bs;
     bs.pos = 0;
     bs.pieces_lower = 0;
@@ -42,8 +36,7 @@ int main(void){
         for(j = 0; j < 8; j++){
             if(board[i][j] != -1){
                 bs.pos |= 1ULL << (8 * i) + j;
-                piece = std::bitset<4>(board[i][j]);
-                set_bits(&bs.pieces_lower, piece, (8 * i) + j);
+                set_bits(&bs.pieces_lower, board[i][j], (8 * i) + j);
             }
         }
     }
@@ -52,15 +45,14 @@ int main(void){
         for(j = 0; j < 8; j++){
             if(board[i][j] != -1){
                 bs.pos |= 1ULL << (8 * i) + j;
-                piece = std::bitset<4>(board[i][j]);
-                set_bits(&bs.pieces_upper, piece, (8 * (i - 8)) + j);
+                set_bits(&bs.pieces_upper, board[i][j], (8 * (i - 8)) + j);
             }
         }
     }
 
     std::cout << bs.pos << "\n";
-    std::cout << std::bitset<64>(bs.pieces_lower) << "\n";
-    std::cout << std::bitset<64>(bs.pieces_upper) << "\n";
+    std::cout << bs.pieces_lower << "\n";
+    std::cout << bs.pieces_upper << "\n";
 
     return 0;
 }
