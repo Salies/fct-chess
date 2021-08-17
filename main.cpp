@@ -1,3 +1,11 @@
+/*
+fct-chess
+
+Criado por:
+Daniel Henrique Serezane Pereira
+Gustavo Becelli Do Nacimento
+*/
+
 #include "mainwindow.h"
 #include <QtWidgets/QApplication>
 
