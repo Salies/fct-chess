@@ -11,6 +11,7 @@ class ChessBoard : public QTableWidget
 public:
 	ChessBoard(bool whites);
 	void resetBoard();
+	std::array<std::array<int, 8>, 8> getBoard();
 public slots:
 	void squareClicked(int x, int y);
 Q_SIGNALS:

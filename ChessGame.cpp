@@ -1,5 +1,4 @@
 ﻿#include "ChessGame.h"
-#include <QDebug>
 
 bool ChessGame::canCapture(int p1, int p2) {
 	if (p2 == -1) return false;

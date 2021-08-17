@@ -2,7 +2,7 @@
 #include <QFontDatabase>
 #include <QString>
 #include <QStringList>
-#include <QDebug>
+#include "SaveBoard.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -94,7 +94,7 @@ void MainWindow::jogada(int piece, int xi, int yi, int xf, int yf, int capture) 
     j.yf = yf;
     j.capture = capture;
     if (capture != -1) {
-        pCapturadas.push(piece);
+        pCapturadas.push(capture);
         if (capture > 5) { // peça preta capturada
             player->setCapturas(pecs[capture % 6]);
         }
@@ -118,7 +118,7 @@ void MainWindow::fimdejogo(QString tipo) {
 }
 
 void MainWindow::salvarFn() {
-    qDebug() << "salvar";
+    SaveBoard::save(board->getBoard(), jogadas, pCapturadas);
 }
 
 void MainWindow::reiniciarFn() {

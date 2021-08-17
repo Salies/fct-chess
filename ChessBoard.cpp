@@ -2,7 +2,6 @@
 #include "ChessSquare.h"
 #include "ChessGame.h"
 #include <QHeaderView>
-#include <QDebug>
 
 char ChessBoard::a[6] = { 'K', 'Q', 'R', 'B', 'N', 'P' };
 
@@ -147,4 +146,8 @@ void ChessBoard::squareClicked(int x, int y) {
 	posPiece = {x, y};
 	vaiJogar = true;
 	lastPlay = QVector<std::array<int, 2>>::fromStdVector(v);
+}
+
+std::array<std::array<int, 8>, 8> ChessBoard::getBoard() {
+	return board;
 }

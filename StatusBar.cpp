@@ -1,5 +1,4 @@
 #include "StatusBar.h"
-#include <QDebug>
 
 StatusBar::StatusBar() {
 	play = new QLabel;

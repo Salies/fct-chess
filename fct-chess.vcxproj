@@ -87,6 +87,7 @@
   <ItemGroup>
     <ClCompile Include="ChessGame.cpp" />
     <ClCompile Include="PlayList.cpp" />
+    <ClCompile Include="SaveBoard.cpp" />
     <ClCompile Include="StatusBar.cpp" />
     <ClCompile Include="ZobHash.cpp" />
     <QtRcc Include="fctchess.qrc" />
@@ -99,6 +100,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BoardPlayer.h" />
+    <ClInclude Include="jogada.h" />
+    <ClInclude Include="SaveBoard.h" />
     <ClInclude Include="ZobHash.h" />
     <QtMoc Include="ChessBoard.h" />
     <ClInclude Include="ChessGame.h" />
