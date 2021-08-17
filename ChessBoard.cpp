@@ -43,14 +43,14 @@ ChessBoard::ChessBoard(bool whites){
 
 void ChessBoard::resetBoard() {
 	board = { {
-		{8, 10, 9, 7, 6, 9, 10, -1},
-		{11, 11, 11, 11, 11, 11, 11, 11},
-		{-1, -1, -1, -1, -1, -1, -1, 8},
+		{8, 10, -1, 7, 6, 9, 10, -1},
+		{11, -1, 11, 11, 11, 11, 11, 11},
+		{-1, 11, -1, -1, -1, -1, -1, 8},
+		{-1, -1, 3, 1, -1, 9, -1, -1},
 		{-1, -1, -1, -1, -1, -1, -1, -1},
-		{-1, -1, -1, -1, -1, -1, -1, -1},
-		{-1, -1, -1, -1, -1, -1, -1, -1},
-		{5, 5, 5, 5, 5, 5, 5, 5},
-		{2, 4, 3, 1, 0, 3, 4, 2}
+		{-1, -1, -1, -1, 5, -1, -1, -1},
+		{5, 5, 5, 5, -1, 5, 5, 5},
+		{2, 4, -1, -1, 0, 3, 4, 2}
 	} };
 
 	for (int i = 0; i < 8; i++)
@@ -76,6 +76,14 @@ void ChessBoard::setPiece(int x, int y, int piece) {
 
 void ChessBoard::squareClicked(int x, int y) {
 	if (board[x][y] == -1) return;
-	std::vector<std::array<int, 2>> v = ChessGame::getValidMoves(board[x][y], x, y);
+	std::vector<std::array<int, 2>> v = ChessGame::getValidMoves(board[x][y], x, y, board);
 
+	for (std::array<int, 2> a : v) {
+		qDebug() << a[0] << a[1];
+		if (board[a[0]][a[1]] == -1) {
+			item(a[0], a[1])->setBackgroundColor(Qt::green);
+			continue;
+		}
+		item(a[0], a[1])->setBackgroundColor(Qt::red);
+	}
 }

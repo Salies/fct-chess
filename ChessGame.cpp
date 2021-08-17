@@ -1,20 +1,23 @@
-#include "ChessGame.h"
+ï»¿#include "ChessGame.h"
 #include <QDebug>
 
-std::vector<std::array<int, 2>> ChessGame::getValidMoves(int piece, int x, int y) {
+bool ChessGame::canCapture(int p1, int p2) {
+	if (p2 == -1) return false;
+	return (((p1 > 5) && (p2 < 6)) || ((p1 < 6) && (p2 > 5)));
+}
+
+bool ChessGame::inBounds(int a) {
+	return a > 7 ||a < 0;
+}
+
+//TODO USAR BOARD AT NÃƒO BOARD[]
+std::vector<std::array<int, 2>> ChessGame::getValidMoves(int piece, int x, int y, std::array<std::array<int, 8>, 8> board) {
+	int i, j, auxp = piece % 6;
 	std::vector<std::array<int, 2>> v;
-	if (piece % 6 == 5) { // TODO peão
-		if(piece == 5)
-			v = { {x, y - 1} };
-		else
-			v = { {x, y + 1} };
-	}
-
-	piece = piece % 6;
-
-	switch (piece) {
+	std::vector<std::array<int, 2>> aux;
+	switch (auxp) {
 	case 0:
-		v = {
+		aux = {
 				{x + 1, y + 1},
 				{x + 1, y    },
 				{x + 1, y - 1},
@@ -24,99 +27,264 @@ std::vector<std::array<int, 2>> ChessGame::getValidMoves(int piece, int x, int y
 				{x - 1, y    },
 				{x - 1, y - 1}
 		};
+		
+		for (i = 0; i < aux.size(); i++) {
+			if (aux[i][0] > 7 || aux[i][0] < 0 || aux[i][1] > 7 || aux[i][1] < 0 || (board[aux[i][0]][aux[i][1]] != -1 && !canCapture(piece, board[aux[i][0]][aux[i][1]]))) {
+				continue;
+			}
+			v.push_back(aux[i]);
+		}
 		break;
 	case 1:
+		// TORRE
+		for (i = x + 1; i <= 7; i++) { // movimentos de baixo
+			if (board[i][y] != -1) {
+				if (canCapture(piece, board[i][y])) {
+					aux.push_back({ i, y });
+					v.push_back({ i, y });
+				}
+				break;
+			}
+			aux.push_back({ i, y });
+			v.push_back({ i, y });
+		}
+		for (i = x - 1; i >= 0; i--) { // movimentos de cima
+			if (board[i][y] != -1) {
+				if (canCapture(piece, board[i][y])) {
+					aux.push_back({ i, y });
+					v.push_back({ i, y });
+				}
+				break;
+			}
+			aux.push_back({i, y});
+			v.push_back({ i, y });
+		}
+		for (i = y + 1; i <= 7; i++) {
+			if (board[x][i] != -1) {
+				if (canCapture(piece, board[x][i])) {
+					aux.push_back({ x, i });
+					v.push_back({ x, i });
+				}
+				break;
+			}
+			aux.push_back({ x, i });
+			v.push_back({ x, i });
+		}
+		for (i = y - 1; i >= 0; i--) {
+			if (board[x][i] != -1) {
+				if (canCapture(piece, board[x][i])) {
+					aux.push_back({ x, i });
+					v.push_back({ x, i });
+				}
+				break;
+			}
+			aux.push_back({ x, i });
+			v.push_back({ x, i });
+		}
+		// BISPO
+		i = x + 1; j = y + 1;
+		while (i <= 7 && j <= 7) { // diagonal baixo direita
+			if (board[i][j] != -1) {
+				if (canCapture(piece, board[i][j])) {
+					aux.push_back({ i, j });
+					v.push_back({ i, j });
+				}
+				break;
+			}
+			aux.push_back({ i, j });
+			v.push_back({ i, j });
+			i++; j++;
+		}
 
+		i = x + 1; j = y - 1;
+		while (i <= 7 && j >= 0) { // diagonal baixo esquerda
+			if (board[i][j] != -1) {
+				if (canCapture(piece, board[i][j])) {
+					aux.push_back({ i, j });
+					v.push_back({ i, j });
+				}
+				break;
+			}
+			aux.push_back({ i, j });
+			v.push_back({ i, j });
+			i++; j--;
+		}
+
+		i = x - 1; j = y + 1;
+		while (i >= 0 && j <= 7) { // diagonal baixo esquerda
+			if (board[i][j] != -1) {
+				if (canCapture(piece, board[i][j])) {
+					aux.push_back({ i, j });
+					v.push_back({ i, j });
+				}
+				break;
+			}
+			aux.push_back({ i, j });
+			v.push_back({ i, j });
+			i--; j++;
+		}
+
+		i = x - 1; j = y - 1;
+		while (i >= 0 && j >= 0) { // diagonal baixo esquerda
+			if (board[i][j] != -1) {
+				if (canCapture(piece, board[i][j])) {
+					aux.push_back({ i, j });
+					v.push_back({ i, j });
+				}
+				break;
+			}
+			aux.push_back({ i, j });
+			v.push_back({ i, j });
+			i--; j--;
+		}
+		break;
+	case 2:
+		for (i = x + 1; i <= 7; i++) { // movimentos de baixo
+			if (board[i][y] != -1) {
+				if (canCapture(piece, board[i][y])) {
+					aux.push_back({ i, y });
+					v.push_back({ i, y });
+				}
+				break;
+			}
+			aux.push_back({ i, y });
+			v.push_back({ i, y });
+		}
+		for (i = x - 1; i >= 0; i--) { // movimentos de cima
+			if (board[i][y] != -1) {
+				if (canCapture(piece, board[i][y])) {
+					aux.push_back({ i, y });
+					v.push_back({ i, y });
+				}
+				break;
+			}
+			aux.push_back({ i, y });
+			v.push_back({ i, y });
+		}
+		for (i = y + 1; i <= 7; i++) {
+			if (board[x][i] != -1) {
+				if (canCapture(piece, board[x][i])) {
+					aux.push_back({ x, i });
+					v.push_back({ x, i });
+				}
+				break;
+			}
+			aux.push_back({ x, i });
+			v.push_back({ x, i });
+		}
+		for (i = y - 1; i >= 0; i--) {
+			if (board[x][i] != -1) {
+				if (canCapture(piece, board[x][i])) {
+					aux.push_back({ x, i });
+					v.push_back({ x, i });
+				}
+				break;
+			}
+			aux.push_back({ x, i });
+			v.push_back({ x, i });
+		}
 		break;
 	case 3:
-	int xoff = 7
-	for(i = -xoff; i < xoff; i++){
-	int yoff = 7
-		v.push()
-	}
-		break;
-	}
-				
-	v.push()
-
-	
-	std::array<std::vector<std::array<int, 2>>, 6> offsets = {
-		{
-			{ // 0 King
-				{1, 1},
-				{-1, -1},
-				{1, -1},
-				{-1, 1},
-				{0, 1},
-				{0, -1},
-				{0, -1}
-			},
-			{ //1 Queen
-				{7, 0},
-				{-7, 0},
-				{0, 7},
-				{0, -7},
-				{7, 7},
-				{-7, -7},
-				{-7, 7},
-				{7, -7}
-			},
-			{ //2 Tower
-				{7, 0},
-				{-7, 0},
-				{0, 7},
-				{0, -7}
-			},
-			{ //3 Bishop
-				{7, 7},
-				{7, -7},
-				{-7, 7},
-				{-7, -7}
-			},
-			{ //4 Knight
-				{2, 1},
-				{2, -1},
-				{-2, 1},
-				{-2, -1},
-				{1, 2},
-				{1, -2},
-				{-1, 2},
-				{-1, -2}
-			},
-			{ //5 Pawn
-				{1, 0}
+		i = x + 1; j = y + 1;
+		while (i <= 7 && j <= 7) { // diagonal baixo direita
+			if (board[i][j] != -1) {
+				if (canCapture(piece, board[i][j])) {
+					aux.push_back({ i, j });
+					v.push_back({ i, j });
+				}
+				break;
 			}
+			aux.push_back({ i, j });
+			v.push_back({ i, j });
+			i++; j++;
 		}
+
+		i = x + 1; j = y - 1;
+		while (i <= 7 && j >= 0) { // diagonal baixo esquerda
+			if (board[i][j] != -1) {
+				if (canCapture(piece, board[i][j])) {
+					aux.push_back({ i, j });
+					v.push_back({ i, j });
+				}
+				break;
+			}
+			aux.push_back({ i, j });
+			v.push_back({ i, j });
+			i++; j--;
+		}
+		
+		i = x - 1; j = y + 1;
+		while (i >= 0 && j <= 7) { // diagonal baixo esquerda
+			if (board[i][j] != -1) {
+				if (canCapture(piece, board[i][j])) {
+					aux.push_back({ i, j });
+					v.push_back({ i, j });
+				}
+				break;
+			}
+			aux.push_back({ i, j });
+			v.push_back({ i, j });
+			i--; j++;
+		}
+
+		i = x - 1; j = y - 1;
+		while (i >= 0 && j >= 0) { // diagonal baixo esquerda
+			if (board[i][j] != -1) {
+				if (canCapture(piece, board[i][j])) {
+					aux.push_back({ i, j });
+					v.push_back({ i, j });
+				}
+				break;
+			}
+			aux.push_back({ i, j });
+			v.push_back({ i, j });
+			i--; j--;
+		}
+
+		break;
+	case 4:
+		aux = {
+			{x + 2, y + 1},
+			{x + 2, y - 1},
+			{x + 1, y + 2},
+			{x + 1, y - 2},
+			{x - 1, y + 2},
+			{x - 1, y - 2},
+			{x - 2, y + 1},
+			{x - 2, y - 1}
+		};
+
+		for (i = 0; i < aux.size(); i++) {
+			if (aux[i][0] > 7 || aux[i][0] < 0 || aux[i][1] > 7 || aux[i][1] < 0 || (board[aux[i][0]][aux[i][1]] != -1 && !canCapture(piece, board[aux[i][0]][aux[i][1]]))) {
+				continue;
+			}
+			v.push_back(aux[i]);
+		}
+		break;
+	case 5:
+		int f = 1;
+		if (piece == 5) f = -1; // peÃ£o branco
+		aux.push_back({ x + f * 1, y });
+		if (x == 1 || x == 6) // se for a primeira jogada
+			aux.push_back({ x + f * 2, y });
+
+		qDebug() << "possivel captura" << x + f * 1 << y + 1;
+
+		if (board.at(x + f * 1).at(y + 1) != -1 && canCapture(piece, board[x + f * 1][y + 1]))
+			v.push_back({ x + f * 1, y + 1 });
+
+		if (board.at(x + f * 1).at(y + 1) != -1 && canCapture(piece, board[x + f * 1][y - 1]))
+			v.push_back({ x + f * 1, y - 1 });
+
+		for (i = 0; i < aux.size(); i++) {
+			if (aux[i][0] > 7 || aux[i][0] < 0 || aux[i][1] > 7 || aux[i][1] < 0 || board[aux[i][0]][aux[i][1]] != -1) {
+				continue;
+			}
+			v.push_back(aux[i]);
+		}
+
+		break;
 	};
 
-	//std::vector<std::array<int, 2>> v = offsets[piece % 6];
-	std::vector<std::array<int, 2>> res;
-	std::array<int, 2> aux;
-	qDebug() << "====";
-	for(int i = 0; i < v.size(); i++){
-		aux = v[i];
-		aux[0] += x;
-		aux[1] += y;
-
-		if (aux[0] < 0)
-			aux[0] = 0;
-		else if (aux[0] > 7)
-			aux[0] = 7;
-		
-		if (aux[1] < 0)
-			aux[1] = 0;
-		else if (aux[1] > 7)
-			aux[1] = 7;
-
-		if (aux[0] == x && aux[1] == y)
-			continue;
-		
-
-		qDebug() << aux[0] << aux[1];
-		// remove iguais
-		// se for onde ela já está, remove
-		//qDebug() << aux[0] << aux[1];
-	}
-
-	return res;
+	return v;
 }
