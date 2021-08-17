@@ -85,6 +85,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ChessGame.cpp" />
     <ClCompile Include="PlayList.cpp" />
     <ClCompile Include="StatusBar.cpp" />
     <QtRcc Include="fctchess.qrc" />
@@ -98,6 +99,7 @@
   <ItemGroup>
     <ClInclude Include="BoardPlayer.h" />
     <ClInclude Include="ChessBoard.h" />
+    <ClInclude Include="ChessGame.h" />
     <ClInclude Include="ChessSquare.h" />
     <ClInclude Include="PlayList.h" />
     <ClInclude Include="StatusBar.h" />

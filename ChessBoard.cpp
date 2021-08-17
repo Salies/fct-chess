@@ -1,5 +1,6 @@
 #include "ChessBoard.h"
 #include "ChessSquare.h"
+#include "ChessGame.h"
 #include <QHeaderView>
 #include <QDebug>
 
@@ -42,9 +43,9 @@ ChessBoard::ChessBoard(bool whites){
 
 void ChessBoard::resetBoard() {
 	board = { {
-		{8, 10, 9, 7, 6, 9, 10, 8},
+		{8, 10, 9, 7, 6, 9, 10, -1},
 		{11, 11, 11, 11, 11, 11, 11, 11},
-		{-1, -1, -1, -1, -1, -1, -1, -1},
+		{-1, -1, -1, -1, -1, -1, -1, 8},
 		{-1, -1, -1, -1, -1, -1, -1, -1},
 		{-1, -1, -1, -1, -1, -1, -1, -1},
 		{-1, -1, -1, -1, -1, -1, -1, -1},
@@ -74,5 +75,7 @@ void ChessBoard::setPiece(int x, int y, int piece) {
 }
 
 void ChessBoard::squareClicked(int x, int y) {
-	qDebug() << board[x][y];
+	if (board[x][y] == -1) return;
+	std::vector<std::array<int, 2>> v = ChessGame::getValidMoves(board[x][y], x, y);
+
 }

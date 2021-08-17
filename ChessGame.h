@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <array>
+#include <stack>
 class ChessGame
 {
 public:
