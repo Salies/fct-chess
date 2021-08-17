@@ -7,7 +7,7 @@ bool ChessGame::canCapture(int p1, int p2) {
 }
 
 bool ChessGame::inBounds(int a) {
-	return a > 7 ||a < 0;
+	return !(a > 7 || a < 0);
 }
 
 //TODO USAR BOARD AT NÃO BOARD[]
@@ -265,16 +265,16 @@ std::vector<std::array<int, 2>> ChessGame::getValidMoves(int piece, int x, int y
 		int f = 1;
 		if (piece == 5) f = -1; // peão branco
 		aux.push_back({ x + f * 1, y });
-		if (x == 1 || x == 6) // se for a primeira jogada
+		if ((piece == 11 && x == 1) || (piece == 5 && x == 6)) // se for a primeira jogada
 			aux.push_back({ x + f * 2, y });
 
-		qDebug() << "possivel captura" << x + f * 1 << y + 1;
+		if (inBounds(x + f * 1)) {
+			if (inBounds(y + 1) && canCapture(piece, board[x + f * 1][y + 1]))
+				v.push_back({ x + f * 1, y + 1 });
 
-		if (board.at(x + f * 1).at(y + 1) != -1 && canCapture(piece, board[x + f * 1][y + 1]))
-			v.push_back({ x + f * 1, y + 1 });
-
-		if (board.at(x + f * 1).at(y + 1) != -1 && canCapture(piece, board[x + f * 1][y - 1]))
-			v.push_back({ x + f * 1, y - 1 });
+			if (inBounds(y - 1) && canCapture(piece, board[x + f * 1][y - 1]))
+				v.push_back({ x + f * 1, y - 1 });
+		}
 
 		for (i = 0; i < aux.size(); i++) {
 			if (aux[i][0] > 7 || aux[i][0] < 0 || aux[i][1] > 7 || aux[i][1] < 0 || board[aux[i][0]][aux[i][1]] != -1) {

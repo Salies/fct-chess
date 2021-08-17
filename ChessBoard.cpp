@@ -42,6 +42,7 @@ ChessBoard::ChessBoard(bool whites){
 }
 
 void ChessBoard::resetBoard() {
+	vaiJogar = false;
 	board = { {
 		{8, 10, -1, 7, 6, 9, 10, -1},
 		{11, -1, 11, 11, 11, 11, 11, 11},
@@ -75,15 +76,43 @@ void ChessBoard::setPiece(int x, int y, int piece) {
 }
 
 void ChessBoard::squareClicked(int x, int y) {
-	if (board[x][y] == -1) return;
+	for (std::array<int, 2> aux : lastPlay) {
+		item(aux[0], aux[1])->setBackgroundColor(((aux[0] + aux[1]) % 2) ? QColor(118, 150, 86) : QColor(238, 238, 210));
+	}
+
+	if (board[x][y] == -1) {
+		if (!vaiJogar && !(std::find(lastPlay.begin(), lastPlay.end(), std::array<int, 2>({ x, y })) != lastPlay.end())) { // é uma jogada válida da peça anterior
+			vaiJogar = false;
+			return;
+		}
+	};
+
+	if (vaiJogar) {
+		int piece = board[posPiece[0]][posPiece[1]];
+		QString t = "w";
+		if (piece > 5) {
+			piece -= 6;
+			t = "b";
+		}
+		board[x][y] = board[posPiece[0]][posPiece[1]];
+		board[posPiece[0]][posPiece[1]] = -1;
+		item(x, y)->setData(Qt::DecorationRole, QPixmap::fromImage(QImage(":/fctchess/qrc/pieces/" + t + QString(a[piece]) + ".png")));
+		item(posPiece[0], posPiece[1])->setData(Qt::DecorationRole, NULL);
+		vaiJogar = false;
+		return;
+	}
+
 	std::vector<std::array<int, 2>> v = ChessGame::getValidMoves(board[x][y], x, y, board);
 
-	for (std::array<int, 2> a : v) {
-		qDebug() << a[0] << a[1];
-		if (board[a[0]][a[1]] == -1) {
-			item(a[0], a[1])->setBackgroundColor(Qt::green);
+	for (std::array<int, 2> aux : v) {
+		if (board[aux[0]][aux[1]] == -1) {
+			item(aux[0], aux[1])->setBackgroundColor(QColor(246, 246, 105));
 			continue;
 		}
-		item(a[0], a[1])->setBackgroundColor(Qt::red);
+		item(aux[0], aux[1])->setBackgroundColor(QColor(235, 97, 80));
 	}
+
+	posPiece = {x, y};
+	vaiJogar = true;
+	lastPlay = v;
 }
