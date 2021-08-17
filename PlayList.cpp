@@ -13,5 +13,5 @@ PlayList::PlayList() {
 	setColumnWidth(1, 64);
 	setMaximumWidth(130);
 
-	setHorizontalHeaderLabels({"Jogador", QStringLiteral("Máquina")});
+	setHorizontalHeaderLabels({"Lado", "Jogada"});
 }

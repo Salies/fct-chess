@@ -1,13 +1,27 @@
 #include "StatusBar.h"
+#include <QDebug>
 
 StatusBar::StatusBar() {
 	play = new QLabel;
-	hash = new QLineEdit;
-	play->setText(QStringLiteral("Aguardando início do jogo."));
+	//hash = new QLineEdit;
+	play->setText("Vez das brancas.");
 	play->setStyleSheet("font-size:14px; color: #fff");
-	hash->setPlaceholderText("Hash do tabuleiro");
-	hash->setStyleSheet("QLineEdit { background: #fff;}");
+	//hash->setPlaceholderText("Hash do tabuleiro");
+	//hash->setStyleSheet("QLineEdit { background: #fff;}");
 	addWidget(play);
 	addStretch();
-	addWidget(hash);
+}
+
+void StatusBar::setSide(bool white) {
+	if (white) {
+		play->setText("Vez das brancas.");
+		return;
+	}
+	play->setText("Vez das pretas.");
+	return;
+}
+
+void StatusBar::mate(QString tipo) {
+	play->setText(tipo + ". Fim de jogo!");
+	return;
 }
